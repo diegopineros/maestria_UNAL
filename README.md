@@ -7,5 +7,8 @@ Microdatos ENCV 2019 https://microdatos.dane.gov.co/index.php/catalog/678/get_mi
 Microdatos ENCV 2020 https://microdatos.dane.gov.co/index.php/catalog/718/get_microdata
 Microdatos ENCV 2021 https://microdatos.dane.gov.co/index.php/catalog/734/get-microdata
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 2840dd3cf0d81498adf2fbb8140caae538a20fd5
