@@ -8,9 +8,8 @@ El análisis se limita a un pequeño grupo de variables y módulos de los microd
 - ***Microdatos ENCV 2019*** https://microdatos.dane.gov.co/index.php/catalog/678/get_microdata 
 - ***Microdatos ENCV 2020*** https://microdatos.dane.gov.co/index.php/catalog/718/get_microdata
 - ***Microdatos ENCV 2021*** https://microdatos.dane.gov.co/index.php/catalog/734/get-microdata
+- ***Microdatos ENCV 2022*** https://microdatos.dane.gov.co/
 
-<<<<<<< HEAD
 
-
-=======
->>>>>>> 2840dd3cf0d81498adf2fbb8140caae538a20fd5
+El documento completo con los análisis puede ser consultado en: https://repositorio.unal.edu.co/ 
+* Documento en construcción *
