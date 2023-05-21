@@ -15,7 +15,7 @@ library(reshape2)
 ##############################################################################'#
 
 base_prueba<- read_delim("base_paper2018.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
-table(base_prueba$P1_DEPARTAMENTO, )
+
 # # https://stats.oarc.ucla.edu/r/dae/multinomial-logistic-regression/
 # # https://bookdown.org/wadetroberts/r-you-ready-for-r/multiple-logistic-regression.html
 # 
@@ -56,3 +56,8 @@ table(base_prueba$P1_DEPARTAMENTO, )
 # ## facetted by program type
 # ggplot(lpp, aes(x = write, y = probability, colour = ses)) + geom_line() + facet_grid(variable ~
 #                                                                                         ., scales = "free")
+
+
+
+## =======
+## >>>>>>> 2840dd3cf0d81498adf2fbb8140caae538a20fd5
