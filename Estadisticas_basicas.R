@@ -9,6 +9,7 @@ library(foreign)
 library(nnet)
 library(ggplot2)
 library(reshape2)
+library(haven)
 
 ##############################################################################'#
 #############################  Carga de datos  #################################
