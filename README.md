@@ -13,7 +13,7 @@ El análisis se limita a un pequeño grupo de variables y módulos de los microd
 ## Reproducibilidad del documento 
 
 Con el propósito de facilitar la réplica del análisis planteado como trabajo final de maestría, en el presente repositorio se encuentran los siguientes archivos en formato rscript:
-•	El archivo “Procesamiento_de_dato” toma los archivos csv´s de los microdatos del DANE para construir una versión reducida y compacto que será usado para el análisis y modelamiento de la Encuesta de Calidad de Vida (ECV).
+•	El archivo “Procesamiento_de_dato” toma los archivos dta´s de los microdatos del DANE para construir una versión reducida y compacto que será usado para el análisis y modelamiento de la Encuesta de Calidad de Vida (ECV).
 •	El archivo “Estadisticas_basicas” procesa las estadísticas generales, cálculos, tablas y graficas de las bases de la ECV que se encuentran el documento. 
 •	El archivo “Modelo” desarrollo el modelo empleado en el análisis asi como el código de las tablas, cálculos y graficas para el análisis.
 Finalmente, en las diferentes carpetas se puede consultar todas la tablas e ilustraciones desarrolladas en el documento.
