@@ -31,6 +31,7 @@ for (i in c(2018,2019,2021)){
     base_poblacion$P6020 <- base_poblacion$p6020
     base_poblacion$P6040 <- base_poblacion$p6040
     base_poblacion$P6051 <- base_poblacion$p6051
+    
     base_vivienda$DIRECTORIO <- base_vivienda$directorio
     base_vivienda$SECUENCIA_ENCUESTA <- base_vivienda$secuencia_encuesta
     base_vivienda$ORDEN <- base_vivienda$orden
@@ -38,11 +39,13 @@ for (i in c(2018,2019,2021)){
     base_vivienda$CLASE <- base_vivienda$clase
     base_vivienda$P8520S1 <- base_vivienda$p8520s1
     base_vivienda$FEX_C <- base_vivienda$fex_c
+    
     base_educ$DIRECTORIO <- base_educ$directorio
     base_educ$SECUENCIA_ENCUESTA <- base_educ$secuencia_encuesta
     base_educ$SECUENCIA_P <- base_educ$secuencia_p
     base_educ$P8587 <- base_educ$p8587
     base_educ$P8587S1 <- base_educ$p8587s1
+    
     base_hogar$DIRECTORIO <- base_hogar$directorio
     base_hogar$SECUENCIA_P <- base_hogar$secuencia_p
     base_hogar$SECUENCIA_ENCUESTA <- base_hogar$secuencia_encuesta
