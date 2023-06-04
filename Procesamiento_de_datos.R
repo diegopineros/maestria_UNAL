@@ -10,12 +10,12 @@ library(haven)
 #############################  Procesamiento  ##################################
 ##############################################################################'#
 
-for (i in c(2018, 2020, 2021, 2022)){
+for (i in c(2018, 2020, 2022)){
   
   print(i)
   base_poblacion  <- read_dta(paste(getwd(),'Data',i,'Caracteristicas y composicion del hogar.dta', sep='/'))
   base_vivienda <- read_dta(paste(getwd(),'Data',i,"Datos de la vivienda.dta", sep='/'))
-  base_educ <- read_dta(paste(getwd(),'Data',i,"Educación.dta", sep='/'))
+  base_educ <- read_dta(paste(getwd(),'Data',i,"Educacion.dta", sep='/'))
   base_hogar <- read_dta(paste(getwd(),'Data',i,"Servicios del hogar.dta", sep='/'))
   
 # P1_DEPARTAMENTO
@@ -139,7 +139,7 @@ for (i in c(2018, 2020, 2021, 2022)){
   write.table(base_combustible,paste("./base_paper", i, '.csv', sep=''), sep = ";",dec=".",row.names = FALSE)
   print(paste("./base_paper", i, '.csv', sep=''))
 }
-#
+
 ##############################################################################'
 ##############################################################################'
 ##############################################################################'
