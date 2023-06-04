@@ -10,7 +10,7 @@ library(haven)
 #############################  Procesamiento  ##################################
 ##############################################################################'#
 
-for (i in c(2018,2019,2021)){
+for (i in c(2018, 2020, 2021, 2022)){
   
   print(i)
   base_poblacion  <- read_dta(paste(getwd(),'Data',i,'Caracteristicas y composicion del hogar.dta', sep='/'))
