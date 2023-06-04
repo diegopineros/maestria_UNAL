@@ -4,7 +4,7 @@
 
 library(readr)
 library(tidyverse)
-#library(data.table)
+library(data.table)
 library(foreign)
 library(nnet)
 library(ggplot2)
