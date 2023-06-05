@@ -5,9 +5,7 @@ En el presente repositorio contiene el código base del procesamiento de la info
 El análisis se limita a un pequeño grupo de variables y módulos de los microdatos de la ENCV, en caso de ser requerido puede consultar la información completa de las encuestas de acceso público en los siguientes vínculos:
 
 - ***Microdatos ENCV 2018*** https://microdatos.dane.gov.co/index.php/catalog/607/get_microdata
-- ***Microdatos ENCV 2019*** https://microdatos.dane.gov.co/index.php/catalog/678/get_microdata 
 - ***Microdatos ENCV 2020*** https://microdatos.dane.gov.co/index.php/catalog/718/get_microdata
-- ***Microdatos ENCV 2021*** https://microdatos.dane.gov.co/index.php/catalog/734/get-microdata
 - ***Microdatos ENCV 2022*** https://microdatos.dane.gov.co/index.php/catalog/793/get-microdata
 
 ## Reproducibilidad del documento 
