@@ -9,7 +9,7 @@ library(haven)
 ##############################################################################'#
 #############################  Procesamiento  ##################################
 ##############################################################################'#
-
+#i <- 2022
 for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
   
   print(i)
@@ -22,7 +22,7 @@ for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
   base_educ <- read_dta(paste(getwd(),'Data',i,"Educacion.dta", sep='/'))
   base_hogar <- read_dta(paste(getwd(),'Data',i,"Servicios del hogar.dta", sep='/'))
   
-  # P1_DEPARTAMENTO
+  ####### Ajuste de varibles no estandarizada
   if (i == 2018) {
     base_vivienda$P1_DEPARTAMENTO <- base_vivienda$DPTO
   }
@@ -38,7 +38,8 @@ for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
                                    P8536,P1698,P1698S1,I_HOGAR,I_UGASTO,PERCAPITA,
                                    I_OU,CANT_PERSONAS_HOGAR)
   
-
+  ####### Personas que cocinan
+  fla_hog <- fla_hog %>% filter(!is.na(P8536))  
   
   ##############################################################################'#
   ##########################  Agrupación hogares  ###############################
@@ -56,10 +57,12 @@ for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
   pobl <- base_poblacion %>% select(DIRECTORIO,SECUENCIA_ENCUESTA,SECUENCIA_P,
                                     P6020,P6040,P6051)
   
-  base_pop <- inner_join(x = educ,y = pobl,by=c("DIRECTORIO","SECUENCIA_ENCUESTA",
+  base_pop <- right_join(x = educ,y = pobl,by=c("DIRECTORIO","SECUENCIA_ENCUESTA",
                                                 "SECUENCIA_P"))
   
   base_pop <- base_pop %>% group_by(DIRECTORIO,SECUENCIA_P) %>% mutate(avg_edad=mean(P6040))
+  
+  ####### Creacion de varibles desde base
   base_pop$Jefe_educ_sec <- 0
   base_pop$Jefe_educ_ter <- 0
   base_pop$menores <- 0
@@ -67,6 +70,7 @@ for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
   base_pop$Jefe_sex <- 0
   base_pop$personas <-1
 
+  ####### Creacion de variables de jefe de hogar
   base_pop <- as.data.table(base_pop)
   base_pop <- base_pop[P6051==1,Jefe_sex:=P6020]
   base_pop <- base_pop[P6051==1,Jefe_edad:=P6040]
@@ -81,27 +85,51 @@ for (i in c(2018, 2020, 2022)){#2018, 2019, 2020, 2021, 2022
   base_pop_clear <- base_pop %>% group_by(DIRECTORIO,SECUENCIA_P) %>% 
     summarise(Jefe_sex=max(Jefe_sex),Jefe_edad=max(Jefe_edad),menores=sum(menores),
               Jefe_educ_sec=max(Jefe_educ_sec),Jefe_educ_ter=max(Jefe_educ_ter),
-              avg_edad=mean(avg_edad), personas=sum(personas))
+              avg_edad=mean(avg_edad), personas=sum(personas), Grad_anho=mean(P8587S1))
   
+  ####### Cambio de nombre de la varible llave hogar
   base_pop_clear$SECUENCIA_ENCUESTA <- base_pop_clear$SECUENCIA_P
-  
   base_pop_clear <- base_pop_clear %>% select(-SECUENCIA_P)
   
+  ####### Union de informacion de hogares y datos de personas
   base <- inner_join(base_combustible,base_pop_clear,by=c("DIRECTORIO","SECUENCIA_ENCUESTA"))
 
   ##############################################################################'#
   ######################  Ajuste nombres de variables  ###########################
   ##############################################################################'#
-  rename(base_combustible,Gas_red=P5666,Y=P8536,Alt_Y=P1698,N_hogar=CANT_PERSONAS_HOGAR,
+  
+  base <- base %>% rename(Gas_red=P5666,Y=P8536,Alt_Y=P1698,N_hogar=CANT_PERSONAS_HOGAR,
          Tipo_viv=P1070,Energia=P8520S1)
   
+  ####### Creacion de varibles desde base
+  base$Casa <- 0
+  base$Apartamento <- 0
+  base$Habitacion <- 0
+  base$Casa_Ind <- 0
+  
+  ####### Creacion de varibles dummies para el modelo
+  base <- as.data.table(base)
+  base <- base[Gas_red==2,Gas_red:=0]
+  base <- base[Alt_Y==2,Alt_Y:=0]
+  base <- base[Tipo_viv==1,Casa:=1]
+  base <- base[Tipo_viv==2,Apartamento:=1]
+  base <- base[Tipo_viv==3,Habitacion:=1]
+  base <- base[Tipo_viv==4,Casa_Ind:=1]
+  base <- base[Energia==2,Energia:=0]
+  
+  ####### Limpiezada de variables no usadas en el modelo
+  base <- base %>% filter(PERCAPITA>0) %>% filter(PERCAPITA<50000000)
+  base$ln_PERCAPITA <- log(base$PERCAPITA)
+  base <- base %>% select(-DIRECTORIO,-ORDEN,-Tipo_viv,-CLASE,-I_HOGAR,-P1698S1,
+                          -I_UGASTO,-I_OU,-SECUENCIA_ENCUESTA,-Alt_Y,-personas,
+                          -PERCAPITA,-Grad_anho)
   
   ##############################################################################'#
   ##########################  Export datos modelo  ###############################
   ##############################################################################'#
   
-  write.table(base,paste("./base_paper",i,'.csv',sep=''),sep = ";",dec=".",row.names=FALSE)
-  print(paste("./base_paper",i,'.csv',sep=''))
+  write.table(base,paste("./base",i,'.csv',sep=''),sep = ";",dec=".",row.names=FALSE)
+  print(paste("./base",i,'.csv',sep=''))
 }
 
 ##############################################################################'

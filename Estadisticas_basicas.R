@@ -4,25 +4,41 @@
 
 library(readr)
 library(tidyverse)
-library(data.table)
-library(foreign)
-library(nnet)
-library(ggplot2)
-library(reshape2)
-library(haven)
+library(psych)
 
+#i <- 2022
+for (i in c(2018, 2020, 2022)){
 ##############################################################################'#
 #############################  Carga de datos  #################################
 ##############################################################################'#
 
-base_2018 <- read_delim("base_paper2018.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
-#base_2019 <- read_delim("base_paper2019.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
-base_2020 <- read_delim("base_paper2020.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
-#base_2021 <- read_delim("base_paper2021.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
-base_2022 <- read_delim("base_paper2022.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+base <- read_delim(paste('base',i,".csv", sep = ''), delim = ";",
+                   escape_double = FALSE, trim_ws = TRUE)
 
-unique(base_2018$P1_DEPARTAMENTO)
-#unique(base_2019$P1_DEPARTAMENTO)
-unique(base_2020$P1_DEPARTAMENTO)
-#unique(base_2021$P1_DEPARTAMENTO)
-unique(base_2022$P1_DEPARTAMENTO)
+##############################################################################'#
+#######################  estadisticas descriptivas  ############################
+##############################################################################'#
+
+tabla <- describe(base)
+niveles_Y <- table(base$Y)
+
+base$Y <- as.character(base$Y)
+base <- as.data.table(base)
+
+####### Energia electrica
+base <- base[Y=='1',Y:='Energia']
+####### Gas por red
+base <- base[Y=='2',Y:='Gas']
+####### GLP
+base <- base[Y=='4',Y:='GLP']
+####### Leña con otros
+base <- base[Y=='3'|Y=='5'|Y=='6'|Y=='7'|Y=='8',Y:='Leña']
+
+##############################################################################'#
+##########################  Export datos modelo  ###############################
+##############################################################################'#
+
+write.table(tabla,paste("./Table/Tabla_descriptiva",i,'.csv',sep=''),sep = ";",dec=".")
+write.table(niveles_Y,paste("./Table/Y_",i,'.csv',sep=''),sep = ";",dec=".")
+write.table(base,paste("./base_paper",i,'.csv',sep=''),sep = ";",dec=".",row.names=FALSE)
+}

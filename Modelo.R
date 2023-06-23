@@ -3,40 +3,44 @@
 ##############################################################################'#
 
 library(readr)
-library(tidyverse)
-library(data.table)
-library(foreign)
 library(nnet)
-library(ggplot2)
-library(reshape2)
+library(tidyverse)
+
+# library(data.table)
+# library(foreign)
+# library(nnet)
+# library(ggplot2)
+# library(reshape2)
 
 ##############################################################################'#
 #############################  Carga de datos  #################################
 ##############################################################################'#
+i <- 2022
+#for (i in c(2018, 2020, 2022)){
+base <- read_delim(paste('base_paper',i,".csv", sep = ''), delim = ";",
+                   escape_double = FALSE, trim_ws = TRUE)
 
-base_prueba<- read_delim("base_paper2018.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+##############################################################################'#
+##########################  Ajustes preliminares  ###############################
+##############################################################################'#
 
-# # https://stats.oarc.ucla.edu/r/dae/multinomial-logistic-regression/
-# # https://bookdown.org/wadetroberts/r-you-ready-for-r/multiple-logistic-regression.html
-# 
-# #ml <- read.dta("https://stats.idre.ucla.edu/stat/data/hsbdemo.dta")
-# with(ml, table(ses, prog))
-# with(ml, do.call(rbind, tapply(write, prog, function(x) c(M = mean(x), SD = sd(x)))))
-# 
-# ml$prog2 <- relevel(ml$prog, ref = "academic")
-# test <- multinom(prog2 ~ ses + write, data = ml)
-# summary(test)
-# 
-# z <- summary(test)$coefficients/summary(test)$standard.errors
-# z
-# 
-# # 2-tailed z test
-# p <- (1 - pnorm(abs(z), 0, 1)) * 2
-# p
-# ## extract the coefficients from the model and exponentiate
-# exp(coef(test))
-# head(pp <- fitted(test))
-# 
+base$Y <- as.factor(base$Y)
+base$Y2 <- relevel(base$Y, ref = "Leña")
+test <- multinom(Y2~Energia+Gas_red+ln_PERCAPITA+N_hogar+Jefe_sex+Jefe_edad+menores+Jefe_educ_sec,data=base, model = TRUE)
+summary(test)
+
+##### Test de WOLF
+z <- summary(test)$coefficients/summary(test)$standard.errors
+z
+ 
+# 2-tailed z test
+p <- (1 - pnorm(abs(z), 0, 1)) * 2
+p
+
+## extract the coefficients from the model and exponentiate
+exp(coef(test))
+head(pp <- fitted(test))
+
 # dses <- data.frame(ses = c("low", "middle", "high"), write = mean(ml$write))
 # predict(test, newdata = dses, "probs")
 # 
@@ -58,6 +62,6 @@ base_prueba<- read_delim("base_paper2018.csv", delim = ";", escape_double = FALS
 #                                                                                         ., scales = "free")
 
 
-
-## =======
+#}
+################################################################################ =======
 ## >>>>>>> 2840dd3cf0d81498adf2fbb8140caae538a20fd5
